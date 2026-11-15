@@ -8,16 +8,16 @@ install:
 
 # Run normal and flawed protocols
 run:
-	python src/protocol.py
-	python src/flawed.py
+	python -m src.protocol
+	python -m src.flawed
 
 # Execute Nonce Reuse attack
 attack:
-	python attack/attack.py
+	python -m attack.attack
 
 # Execute Nonce Reuse attack with production mode (corrected protocol)
 attack-correct:
-  python attack/attack.py --mode correct
+	python -m attack.attack --mode correct
 	
 # Run all security tests
 test:
