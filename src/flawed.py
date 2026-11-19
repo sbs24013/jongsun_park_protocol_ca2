@@ -1,7 +1,8 @@
-from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM  # type: ignore
+import os
 
 
-# Vulnerable AES-GCM implementation
+# AES-GCM smart meter implementation
 class FlawedSmartMeterProtocol:
 
     def __init__(self, key, meter_id):
@@ -10,28 +11,28 @@ class FlawedSmartMeterProtocol:
         self.meter_id = meter_id
         self.aes = AESGCM(key)
 
-        # Reuse the same nonce (vulnerability)
-        self.nonce = b"\x00" * 12
+        self.counter = 0
 
-    # Encrypt message with a reused nonce
+    # Encrypt each message with a fresh nonce
     def encrypt(self, plaintext):
 
-        # Counter is not updated
-        counter = 1
+        self.counter += 1
+        counter = self.counter
+        nonce = os.urandom(12)
 
         aad = f"{self.meter_id}:{counter}".encode()
 
-        ciphertext = self.aes.encrypt(self.nonce, plaintext, aad)
+        ciphertext = self.aes.encrypt(nonce, plaintext, aad)
 
         return {
             "meter_id": self.meter_id,
             "counter": counter,
-            "nonce": self.nonce,
+            "nonce": nonce,
             "ciphertext": ciphertext,
         }
 
 
-# Run vulnerable implementation
+# Run implementation
 if __name__ == "__main__":
 
     key = AESGCM.generate_key(bit_length=256)
@@ -41,7 +42,7 @@ if __name__ == "__main__":
     packet1 = meter.encrypt(b"Electricity Usage: 250 kWh")
     packet2 = meter.encrypt(b"Electricity Usage: 350 kWh")
 
-    print("Flawed AES-GCM")
-    print("Nonce Reuse: DETECTED")
+    print("AES-GCM")
+    print("Nonce Reuse: NOT DETECTED")
     print("Same Nonce:", packet1["nonce"] == packet2["nonce"])
     print("Same Key: YES")

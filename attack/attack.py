@@ -1,6 +1,5 @@
 import tempfile
-
-from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+import os
 
 from src.protocol import SmartMeterProtocol
 from src.flawed import FlawedSmartMeterProtocol
@@ -28,7 +27,7 @@ def recover_plaintext(packet1, packet2, known_plaintext):
 def run_attack():
 
     # Generate AES-256 key
-    key = AESGCM.generate_key(bit_length=256)
+    key = os.urandom(32)
 
     # Smart Meter messages
     message1 = b"Meter=1001;Usage=250kWh"

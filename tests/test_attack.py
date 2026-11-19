@@ -1,4 +1,4 @@
-from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM  # type: ignore
 
 from src.flawed import FlawedSmartMeterProtocol
 from src.protocol import SmartMeterProtocol

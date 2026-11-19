@@ -1,7 +1,7 @@
-import pytest
+import pytest  # type: ignore
 
-from cryptography.exceptions import InvalidTag
-from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+from cryptography.exceptions import InvalidTag  # type: ignore
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM  # type: ignore
 
 from src.protocol import SmartMeterProtocol
 

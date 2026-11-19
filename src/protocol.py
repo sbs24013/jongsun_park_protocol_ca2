@@ -1,7 +1,7 @@
 import os
 import sqlite3
 
-from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM  # type: ignore
 
 
 # Manage persistent Nonce counters
