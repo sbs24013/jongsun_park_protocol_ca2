@@ -6,19 +6,21 @@ import os
 class FlawedSmartMeterProtocol:
 
     def __init__(self, key, meter_id):
-
         self.key = key
         self.meter_id = meter_id
         self.aes = AESGCM(key)
-
         self.counter = 0
 
-    # Encrypt each message with a fresh nonce
+        # INTENTIONALLY VULNERABLE: fixed nonce for demonstration
+        self.nonce = b"\x00" * 12
+
     def encrypt(self, plaintext):
 
         self.counter += 1
         counter = self.counter
-        nonce = os.urandom(12)
+
+        # INTENTIONALLY REUSE NONCE
+        nonce = self.nonce
 
         aad = f"{self.meter_id}:{counter}".encode()
 

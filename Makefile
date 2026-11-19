@@ -14,10 +14,6 @@ run:
 # Execute Nonce Reuse attack
 attack:
 	python -m attack.attack
-
-# Execute Nonce Reuse attack with production mode (corrected protocol)
-attack-correct:
-	python -m attack.attack --mode correct
 	
 # Run all security tests
 test:
